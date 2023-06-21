@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useModal } from '@eiken/modal-react';
 import './CreateEmployeeForm.css'
 import Button from '../Button/Button';
 import States from './States';
@@ -9,11 +10,14 @@ import { updateEmployee, addEmployee } from '../../store/Employees/employeesSlic
 import { getEmployee } from '../../store/Employees/employeesSelector';
 
 export default function CreateEmployeeForm() {
+  //MODAL
+  const { show, openModal, closeModal, Modal } = useModal();
+
   //REDUX HOOKS
   const dispatch = useDispatch();
   const employee = useSelector(getEmployee);
 
-  //GENEREL STATE
+  //GENERAL STATE
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
@@ -99,7 +103,10 @@ export default function CreateEmployeeForm() {
           <option>Legal</option>
         </select>
 
-        <Button id="saveButton" ButtonText="Save">Your employee {employee.firstName} {employee.lastName} has been created with success.</Button>
+        <Button id="saveButton" ButtonText="Save" openModal={openModal}></Button>
+        <Modal show={show} onClose={closeModal} title="Employee Created">
+          Your employee {employee.firstName} {employee.lastName} has been created with success.
+        </Modal>
       </form>
     </div>
   );
