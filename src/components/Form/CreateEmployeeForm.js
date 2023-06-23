@@ -5,9 +5,8 @@ import Button from '../Button/Button';
 import States from './States';
 import DatePicker from './DatePicker';
 //DEPENDENCIES REDUX
-import { useDispatch, useSelector } from 'react-redux';
-import { updateEmployee, addEmployee } from '../../store/Employees/employeesSlice';
-import { getEmployee } from '../../store/Employees/employeesSelector';
+import { useDispatch } from 'react-redux';
+import { addEmployee } from '../../store/Employees/employeesSlice';
 
 export default function CreateEmployeeForm() {
   //MODAL
@@ -15,54 +14,100 @@ export default function CreateEmployeeForm() {
 
   //REDUX HOOKS
   const dispatch = useDispatch();
-  const employee = useSelector(getEmployee);
 
   //GENERAL STATE
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [anniversaryDate, setAnniversaryDate] = useState('');
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [stateName, setStateName] = useState('');
-  const [zip, setZip] = useState('');
-  const [department, setDepartment] = useState('');
+  // const [firstName, setFirstName] = useState('');
+  // const [lastName, setLastName] = useState('');
+  // const [dateOfBirth, setDateOfBirth] = useState('');
+  // const [anniversaryDate, setAnniversaryDate] = useState('');
+  // const [street, setStreet] = useState('');
+  // const [city, setCity] = useState('');
+  // const [stateName, setStateName] = useState('');
+  // const [zip, setZip] = useState('');
+  // const [department, setDepartment] = useState('');
+
+  const [employee, setEmployee] = useState({
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    anniversaryDate: '',
+    street: '',
+    city: '',
+    stateName: '',
+    zip: '',
+    department: '',
+  }) 
 
   //Handle Changes (DatePicker and State get their own function in their own components)
+  const handleDateOfBirthChange = (event) => {
+    setEmployee({
+      ...employee,
+      dateOfBirth: event.target.value,
+    })
+  }
+  const handleAnniversaryDateChange = (event) => {
+    setEmployee({
+      ...employee,
+      anniversaryDate: event.target.value,
+    })
+  }
+  const handleStateNameChange = (event) => {
+    setEmployee({
+      ...employee,
+      stateName: event.target.value,
+    })
+  }
   const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
+    setEmployee({
+      ...employee,
+       firstName: event.target.value,
+      });
   };
   const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
+    setEmployee({
+      ...employee,
+       lastName: event.target.value,
+      });
   };
   const handleStreetChange = (event) => {
-    setStreet(event.target.value);
+    setEmployee({
+      ...employee,
+       street: event.target.value,
+    });
   };
   const handleCityChange = (event) => {
-    setCity(event.target.value);
+    setEmployee({
+      ...employee,
+       city: event.target.value,
+      });
   };
   const handleZipChange = (event) => {
-    setZip(event.target.value);
+    setEmployee({
+      ...employee,
+       zip: event.target.value,
+      });
   };
   const handleDepartmentChange = (event) => {
-    setDepartment(event.target.value);
+    setEmployee({
+      ...employee,
+       department: event.target.value,
+      });
   };
   const handleSubmit = (event) => {
     event.preventDefault();
 
     //REDUX
     const newEmployee = {
-      firstName: firstName,
-      lastName: lastName,
-      dateOfBirth: dateOfBirth,
-      anniversaryDate: anniversaryDate,
-      street: street,
-      city: city,
-      state: stateName,
-      zip: zip,
-      department: department
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      dateOfBirth: employee.dateOfBirth,
+      anniversaryDate: employee.anniversaryDate,
+      street: employee.street,
+      city: employee.city,
+      state: employee.stateName,
+      zip: employee.zip,
+      department: employee.department
     };
-    dispatch(updateEmployee(newEmployee));
     dispatch(addEmployee(newEmployee));
   };
 
@@ -75,9 +120,9 @@ export default function CreateEmployeeForm() {
         <label htmlFor="last-name">Last Name</label>
         <input type="text" id="last-name" onChange={handleLastNameChange} />
 
-        <DatePicker label="Date of Birth" id="date-of-birth" date={dateOfBirth} setDate={setDateOfBirth} />
+        <DatePicker label="Date of Birth" id="date-of-birth" date={employee.dateOfBirth} setDate={handleDateOfBirthChange} />
 
-        <DatePicker label="Anniversary Date:" id="anniversary-date" date={anniversaryDate} setDate={setAnniversaryDate} />
+        <DatePicker label="Anniversary Date:" id="anniversary-date" date={employee.anniversaryDate} setDate={handleAnniversaryDateChange} />
 
         <fieldset className="address">
           <legend>Address</legend>
@@ -88,7 +133,7 @@ export default function CreateEmployeeForm() {
           <label htmlFor="city">City</label>
           <input id="city" type="text" onChange={handleCityChange} />
 
-          <States setState={setStateName}/>
+          <States setState={handleStateNameChange}/>
 
           <label htmlFor="zip-code">Zip Code</label>
           <input id="zip-code" type="number" onChange={handleZipChange} />

@@ -25,17 +25,17 @@ const employeesSlice = createSlice({
             state.employees.push(...employeeData);
             state.fakeEmployeesLoaded = true;
         },
-        updateEmployee: (state, action) => {
-            state.employee.firstName = action.payload.firstName;
-            state.employee.lastName = action.payload.lastName;
-            state.employee.dateOfBirth = action.payload.dateOfBirth;
-            state.employee.anniversaryDate = action.payload.anniversaryDate;
-            state.employee.street = action.payload.street;
-            state.employee.city = action.payload.city;
-            state.employee.state = action.payload.state;
-            state.employee.zip = action.payload.zip;
-            state.employee.department = action.payload.department;
-        },
+        // updateEmployee: (state, action) => {
+        //     state.employee.firstName = action.payload.firstName;
+        //     state.employee.lastName = action.payload.lastName;
+        //     state.employee.dateOfBirth = action.payload.dateOfBirth;
+        //     state.employee.anniversaryDate = action.payload.anniversaryDate;
+        //     state.employee.street = action.payload.street;
+        //     state.employee.city = action.payload.city;
+        //     state.employee.state = action.payload.state;
+        //     state.employee.zip = action.payload.zip;
+        //     state.employee.department = action.payload.department;
+        // },
         addEmployee: (state, action) => {
             state.employees.push(action.payload);
         }
@@ -43,7 +43,6 @@ const employeesSlice = createSlice({
 
 export const { 
     addFakeEmployees,
-    updateEmployee, 
     addEmployee 
 } = employeesSlice.actions;
 

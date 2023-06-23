@@ -19,14 +19,10 @@ const states = [
 ];
 
 export default function States({setState}) {
-    const handleChange = (event) => {
-        setState(event.target.value);
-    };
-
     return (
         <div>
             <label htmlFor="state">State</label>
-            <select name="state" id="state" onChange={handleChange}>
+            <select name="state" id="state" onChange={setState}>
                 {states.map(state => (
                     <option key={state.abbreviation} value={state.abbreviation}>
                         {state.name}
