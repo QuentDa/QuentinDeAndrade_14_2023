@@ -103,7 +103,7 @@ export default function CreateEmployeeForm() {
           <option>Legal</option>
         </select>
 
-        <Button id="saveButton" ButtonText="Save" openModal={openModal}></Button>
+        <Button buttonText="Save" openModal={openModal}></Button>
         <Modal show={show} onClose={closeModal} title="Employee Created">
           Your employee {employee.firstName} {employee.lastName} has been created with success.
         </Modal>
