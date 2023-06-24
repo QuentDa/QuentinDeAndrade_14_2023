@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import DataTable from "../../components/Table/DataTable";
 import { useDispatch, useSelector } from "react-redux";
 import { addFakeEmployees } from "../../store/Employees/employeesSlice";
+import './Employees.css'
 export default function Employees() {
   //ADDING FAKE EMPLOYEES
     const dispatch = useDispatch();
