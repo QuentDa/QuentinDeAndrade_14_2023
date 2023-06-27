@@ -29,6 +29,17 @@ export default function DataTable({ data, columns }) {
     setCurrentPage(1);
   };
 
+  //SORT FEATURE
+  const [sortConfig, setSortConfig] = useState(null);
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
   return (
     <div className="table-container">
       <div className="search-container">
@@ -38,12 +49,25 @@ export default function DataTable({ data, columns }) {
         <thead>
           <tr>
             {columns.map(column => (
-              <th key={column}>{column}</th>
+              <th key={column}>
+                {column}
+                <span className="sort-arrow" onClick={() => handleSort(column)}>
+                  {sortConfig && sortConfig.key === column && sortConfig.direction === 'asc' ? '▲' : '▼'}
+                </span>
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {currentData.map((item, index) => (
+          {currentData.sort((a, b) => {
+            if (sortConfig && sortConfig.direction === 'asc') {
+              return a[sortConfig.key].localeCompare(b[sortConfig.key]);
+            } else if (sortConfig && sortConfig.direction === 'desc') {
+              return b[sortConfig.key].localeCompare(a[sortConfig.key]);
+            } else {
+              return 0;
+            }
+          }).map((item, index) => (
             <tr key={index}>
               {Object.values(item).map((value, index) => (
                 <td key={index}>{value}</td>
