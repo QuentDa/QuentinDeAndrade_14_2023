@@ -17,15 +17,15 @@ export default function Employees() {
     //CREATING TABLE
     const employees = useSelector(state => state.employees.employees);
     const columns = [
-      'First Name',
-      'Last Name',
-      'Date of Birth',
-      'Anniversary Date',
-      'Street',
-      'City',
-      'State',
-      'Zip',
-      'Department',
+      { key: 'firstName', label: 'First Name' },
+      { key: 'lastName', label: 'Last Name' },
+      { key: 'dateOfBirth', label: 'Date of Birth' },
+      { key: 'anniversaryDate', label: 'Anniversary Date' },
+      { key: 'street', label: 'Street' },
+      { key: 'city', label: 'City' },
+      { key: 'state', label: 'State' },
+      { key: 'zip', label: 'Zip' },
+      { key: 'department', label: 'Department' },
     ];
 
     return (
