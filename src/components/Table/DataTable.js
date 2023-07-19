@@ -58,7 +58,7 @@ export default function DataTable({ data, columns }) {
           </tr>
         </thead>
         <tbody>
-          {currentData.sort((a, b) => {
+          {filteredData.sort((a, b) => {
             if (sortConfig && sortConfig.direction === 'asc') {
               return a[sortConfig.key].localeCompare(b[sortConfig.key]);
             } else if (sortConfig && sortConfig.direction === 'desc') {
@@ -66,7 +66,7 @@ export default function DataTable({ data, columns }) {
             } else {
               return 0;
             }
-          }).map((item, index) => (
+          }).slice(indexOfFirstItem, indexOfLastItem).map((item, index) => (
             <tr key={index}>
               {Object.values(item).map((value, index) => (
                 <td key={index}>{value}</td>

@@ -28,6 +28,90 @@ export default function CreateEmployeeForm() {
     department: '',
   })
 
+  //ERROR
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [error, setError] = useState({
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    anniversaryDate: '',
+    street: '',
+    city: '',
+    stateName: '',
+    zip: '',
+    department: '',
+  });
+  
+  const validateForm = () => {
+    let isValid = true;
+
+    if (employee.firstName === '') {
+      setError({
+        ...error,
+        firstName: 'First Name is required',
+      });
+      isValid = false;
+    }
+    // if (employee.lastName === '') {
+    //   setError({
+    //     ...error,
+    //     lastName: 'Last Name is required',
+    //   });
+    //   isValid = false;
+    // }
+    // if (employee.dateOfBirth === '') {
+    //   setError({
+    //     ...error,
+    //     dateOfBirth: 'Date of Birth is required',
+    //   });
+    //   isValid = false;
+    // }
+    // if (employee.anniversaryDate === '') {
+    //   setError({
+    //     ...error,
+    //     anniversaryDate: 'Anniversary Date is required',
+    //   });
+    //   isValid = false;
+    // }
+    // if (employee.street === '') {
+    //   setError({
+    //     ...error,
+    //     street: 'Street is required',
+    //   });
+    //   isValid = false;
+    // }
+    // if (employee.city === '') {
+    //   setError({
+    //     ...error,
+    //     city: 'City is required',
+    //   });
+    //   isValid = false;
+    // }
+    // if (employee.stateName === '') {
+    //   setError({
+    //     ...error,
+    //     stateName: 'State is required',
+    //   });
+    //   isValid = false;
+    // }
+    // if (employee.zip === '') {
+    //   setError({
+    //     ...error,
+    //     zip: 'Zip Code is required',
+    //   });
+    //   isValid = false;
+    // }
+    // if (employee.department === '') {
+    //   setError({
+    //     ...error,
+    //     department: 'Department is required',
+    //   });
+    //   isValid = false;
+    // }
+    
+    return isValid;
+  }
+
   //Handle Changes (DatePicker and State get their own function in their own components)
   const handleDateOfBirthChange = (event) => {
     setEmployee({
@@ -85,34 +169,44 @@ export default function CreateEmployeeForm() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    const isValid = validateForm();
 
-    //REDUX
-    const newEmployee = {
-      firstName: employee.firstName,
-      lastName: employee.lastName,
-      dateOfBirth: employee.dateOfBirth,
-      anniversaryDate: employee.anniversaryDate,
-      street: employee.street,
-      city: employee.city,
-      state: employee.stateName,
-      zip: employee.zip,
-      department: employee.department
-    };
-    dispatch(addEmployee(newEmployee));
+    if (isValid) {
+      //REDUX
+      const newEmployee = {
+        firstName: employee.firstName,
+        lastName: employee.lastName,
+        dateOfBirth: employee.dateOfBirth,
+        anniversaryDate: employee.anniversaryDate,
+        street: employee.street,
+        city: employee.city,
+        state: employee.stateName,
+        zip: employee.zip,
+        department: employee.department
+      };
+      dispatch(addEmployee(newEmployee));
+
+      //RESET FORM
+      setFormSubmitted(true);
+    }
   };
 
   return (
     <form action="#" id="create-employee" className='w-full max-w-lg mx-auto' onSubmit={handleSubmit}>
       <legend className='text-2xl tracking-tight text-gray-900 mb-4'>Informations</legend>
       <div className='grid grid-cols-2 gap-3'>
-        <input placeholder='First Name' type="text" id="first-name" onChange={handleFirstNameChange}
-          className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500'
-        />
+        <div>
+          <input placeholder='First Name' type="text" id="first-name" onChange={handleFirstNameChange}
+            className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500'
+          />
+          {error.firstName && ( <p className='text-red-500 text-xs italic'>{error.firstName}</p> )}
+        </div>
 
         <div className='flex flex-col'>
           <input placeholder='Last Name' type="text" id="last-name" onChange={handleLastNameChange}
             className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500'
           />
+          {error.lastName && ( <p className='text-red-500 text-xs italic'>{error.lastName}</p> )}
         </div>
 
         <DatePicker label="Date of Birth" id="date-of-birth" date={employee.dateOfBirth} setDate={handleDateOfBirthChange} />
@@ -154,9 +248,11 @@ export default function CreateEmployeeForm() {
         <div className="col-span-2 w-full flex justify-center items-center mt-4">
           <Button buttonText="Save" openModal={openModal}></Button>
         </div>
-        <Modal show={show} onClose={closeModal} title="Employee Created">
-          Your employee {employee.firstName} {employee.lastName} has been created with success.
-        </Modal>
+        {formSubmitted && (
+          <Modal show={show} onClose={closeModal} title="Employee Created">
+            Your employee {employee.firstName} {employee.lastName} has been created with success.
+          </Modal>
+        )}
       </div>
     </form>
   );
