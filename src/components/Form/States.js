@@ -237,11 +237,11 @@ const states = [
     }
 ];
 
-export default function States({ setState }) {
+export default function States({ setState, value, error }) {
     return (
         <div>
             <label className="text-gray-400" htmlFor="state">State</label>
-            <select name="state" id="state" onChange={setState}
+            <select name="state" id="state" value={value} onChange={setState}
                 className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500'
             >
                 {states.map(state => (
@@ -250,6 +250,7 @@ export default function States({ setState }) {
                     </option>
                 ))}
             </select>
+            {error && (<p className='text-red-500 text-xs italic'>{error}</p>)}
         </div>
     );
 }

@@ -7,6 +7,7 @@ import DatePicker from './DatePicker';
 //DEPENDENCIES REDUX
 import { useDispatch } from 'react-redux';
 import { addEmployee } from '../../store/Employees/employeesSlice';
+import { validate } from './Validate';
 
 export default function CreateEmployeeForm() {
   //MODAL
@@ -23,9 +24,9 @@ export default function CreateEmployeeForm() {
     anniversaryDate: '',
     street: '',
     city: '',
-    stateName: '',
+    stateName: 'Alabama',
     zip: '',
-    department: '',
+    department: 'Sales',
   })
 
   //ERROR
@@ -41,76 +42,6 @@ export default function CreateEmployeeForm() {
     zip: '',
     department: '',
   });
-  
-  const validateForm = () => {
-    let isValid = true;
-
-    if (employee.firstName === '') {
-      setError({
-        ...error,
-        firstName: 'First Name is required',
-      });
-      isValid = false;
-    }
-    // if (employee.lastName === '') {
-    //   setError({
-    //     ...error,
-    //     lastName: 'Last Name is required',
-    //   });
-    //   isValid = false;
-    // }
-    // if (employee.dateOfBirth === '') {
-    //   setError({
-    //     ...error,
-    //     dateOfBirth: 'Date of Birth is required',
-    //   });
-    //   isValid = false;
-    // }
-    // if (employee.anniversaryDate === '') {
-    //   setError({
-    //     ...error,
-    //     anniversaryDate: 'Anniversary Date is required',
-    //   });
-    //   isValid = false;
-    // }
-    // if (employee.street === '') {
-    //   setError({
-    //     ...error,
-    //     street: 'Street is required',
-    //   });
-    //   isValid = false;
-    // }
-    // if (employee.city === '') {
-    //   setError({
-    //     ...error,
-    //     city: 'City is required',
-    //   });
-    //   isValid = false;
-    // }
-    // if (employee.stateName === '') {
-    //   setError({
-    //     ...error,
-    //     stateName: 'State is required',
-    //   });
-    //   isValid = false;
-    // }
-    // if (employee.zip === '') {
-    //   setError({
-    //     ...error,
-    //     zip: 'Zip Code is required',
-    //   });
-    //   isValid = false;
-    // }
-    // if (employee.department === '') {
-    //   setError({
-    //     ...error,
-    //     department: 'Department is required',
-    //   });
-    //   isValid = false;
-    // }
-    
-    return isValid;
-  }
 
   //Handle Changes (DatePicker and State get their own function in their own components)
   const handleDateOfBirthChange = (event) => {
@@ -169,9 +100,10 @@ export default function CreateEmployeeForm() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const isValid = validateForm();
+    const testError = validate(employee);
+    setError(testError)
 
-    if (isValid) {
+    if (Object.keys(testError).length === 0) {
       //REDUX
       const newEmployee = {
         firstName: employee.firstName,
@@ -191,44 +123,68 @@ export default function CreateEmployeeForm() {
     }
   };
 
+  function handleCloseModal() {
+    closeModal();
+    setEmployee({
+      firstName: '',
+      lastName: '',
+      dateOfBirth: '',
+      anniversaryDate: '',
+      street: '',
+      city: '',
+      stateName: '',
+      zip: '',
+      department: '',
+    })
+  }
+
   return (
     <form action="#" id="create-employee" className='w-full max-w-lg mx-auto' onSubmit={handleSubmit}>
       <legend className='text-2xl tracking-tight text-gray-900 mb-4'>Informations</legend>
       <div className='grid grid-cols-2 gap-3'>
         <div>
-          <input placeholder='First Name' type="text" id="first-name" onChange={handleFirstNameChange}
+          <input placeholder='First Name' type="text" id="first-name" value={employee.firstName} onChange={handleFirstNameChange}
             className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500'
           />
-          {error.firstName && ( <p className='text-red-500 text-xs italic'>{error.firstName}</p> )}
+          {error.firstName && (<p className='text-red-500 text-xs italic'>{error.firstName}</p>)}
         </div>
 
         <div className='flex flex-col'>
           <input placeholder='Last Name' type="text" id="last-name" onChange={handleLastNameChange}
             className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500'
           />
-          {error.lastName && ( <p className='text-red-500 text-xs italic'>{error.lastName}</p> )}
+          {error.lastName && (<p className='text-red-500 text-xs italic'>{error.lastName}</p>)}
         </div>
 
-        <DatePicker label="Date of Birth" id="date-of-birth" date={employee.dateOfBirth} setDate={handleDateOfBirthChange} />
+        <DatePicker label="Date of Birth" id="date-of-birth" date={employee.dateOfBirth} setDate={handleDateOfBirthChange} error={error.dateOfBirth} />
 
-        <DatePicker label="Anniversary Date" id="anniversary-date" date={employee.anniversaryDate} setDate={handleAnniversaryDateChange} />
+        <DatePicker label="Anniversary Date" id="anniversary-date" date={employee.anniversaryDate} setDate={handleAnniversaryDateChange} error={error.anniversaryDate} />
 
         <fieldset className="address col-span-2 mt-4">
-          <legend className='text-2xl tracking-tight text-gray-900 mb-4'>Address</legend>
+          <div className='flex flex-col'>
+            <legend className='text-2xl tracking-tight text-gray-900 mb-4'>Address</legend>
 
-          <input placeholder='Street' id="street" type="text" onChange={handleStreetChange}
-            className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500'
-          />
+            <input placeholder='Street' id="street" type="text" onChange={handleStreetChange}
+              className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500'
+            />
+            {error.street && (<p className='text-red-500 text-xs italic'>{error.street}</p>)}
+          </div>
           <div className='grid grid-cols-3 gap-2 mt-4'>
-            <input placeholder='City' id="city" type="text" onChange={handleCityChange}
-              className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500 mt-6'
-            />
+            <div className='flex flex-col'>
+              <input placeholder='City' id="city" type="text" onChange={handleCityChange}
+                className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500 mt-6'
+              />
+              {error.city && (<p className='text-red-500 text-xs italic'>{error.city}</p>)}
+            </div>
 
-            <States setState={handleStateNameChange} />
+            <States setState={handleStateNameChange} error={error.stateName} value={employee.stateName} />
 
-            <input placeholder='Zip Code' id="zip-code" type="number" onChange={handleZipChange}
-              className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500 mt-6'
-            />
+            <div className='flex flex-col'>
+              <input placeholder='Zip Code' id="zip-code" type="number" onChange={handleZipChange}
+                className='border border-gray-300 rounded w-full h-10 py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500 mt-6'
+              />
+              {error.zip && (<p className='text-red-500 text-xs italic'>{error.zip}</p>)}
+            </div>
           </div>
         </fieldset>
 
@@ -243,13 +199,14 @@ export default function CreateEmployeeForm() {
             <option>Human Resources</option>
             <option>Legal</option>
           </select>
+          {error.department && (<p className='text-red-500 text-xs italic'>{error.department}</p>)}
         </div>
 
         <div className="col-span-2 w-full flex justify-center items-center mt-4">
-          <Button buttonText="Save" openModal={openModal}></Button>
+          <Button buttonText="Save" onClick={openModal}></Button>
         </div>
         {formSubmitted && (
-          <Modal show={show} onClose={closeModal} title="Employee Created">
+          <Modal show={show} onClose={handleCloseModal} title="Employee Created">
             Your employee {employee.firstName} {employee.lastName} has been created with success.
           </Modal>
         )}
