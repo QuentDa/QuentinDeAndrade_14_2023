@@ -13,11 +13,11 @@ describe('Button', () => {
     })
 
     describe('When the user is clicking on the button', () => {
-        it('should handle the click', () => {
+        it('should handle the click', async () => {
             const onClick = jest.fn()
             render(<Button buttonText="Test" onClick={onClick}  />)
-            // userEvent.click(screen.getByTestId('test-button'))
-            fireEvent.click(screen.getByTestId('test-button'));
+            await userEvent.click(screen.getByTestId('test-button'))
+            // fireEvent.click(screen.getByTestId('test-button'));
             expect(onClick).toHaveBeenCalled()
         })
     })

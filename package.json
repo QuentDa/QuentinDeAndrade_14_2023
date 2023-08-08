@@ -2,6 +2,7 @@
   "name": "project-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@eiken/modal-react": "^0.7.0",
     "@reduxjs/toolkit": "^1.9.5",
