@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
 import Employees from './pages/Employees/Employees';
@@ -13,12 +13,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>
-    <HashRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="Employees" element={<Employees />} />
-      </Routes>
-    </HashRouter>
+    <BrowserRouter>
+      <div className='Wrapper xl:flex'>
+        <Header />
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/employees" element={<Employees />} />
+          {/* PAGE 404 */}
+        </Routes>
+      </div>
+    </BrowserRouter>
   </Provider>
 );

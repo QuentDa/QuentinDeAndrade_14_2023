@@ -29,7 +29,7 @@ export default function Employees() {
     ];
 
     return (
-        <div className="employees">
+        <div className="employees xl:w-1/2 flex flex-col items-center justify-center mx-auto">
             <h2>Employees</h2>
 
             <DataTable data={employees} columns={columns} />

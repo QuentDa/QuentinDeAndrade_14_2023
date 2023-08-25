@@ -20,7 +20,6 @@ export default function DataTable({ data, columns }) {
   
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -79,7 +78,7 @@ export default function DataTable({ data, columns }) {
         <ul className="pagination">
           {Array.from({ length: totalPages }, (_, index) => (
             <li key={index} onClick={() => paginate(index + 1)}>
-              <a href="#!">{index + 1}</a>
+              {index + 1}
             </li>
           ))}
         </ul>
