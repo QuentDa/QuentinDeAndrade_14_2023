@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <div className='Wrapper xl:flex'>
+      <div className='Wrapper xl:flex overflow-x-hidden'>
         <Header />
         <Routes>
           <Route path="/" exact element={<Home />} />

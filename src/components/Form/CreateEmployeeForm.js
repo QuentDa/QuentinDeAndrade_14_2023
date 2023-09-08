@@ -139,7 +139,7 @@ export default function CreateEmployeeForm() {
   }
 
   return (
-    <form action="#" id="create-employee" className='w-full max-w-lg mx-auto' onSubmit={handleSubmit}>
+    <form action="#" id="create-employee" className='xl:w-full w-4/5 max-w-lg mx-auto' onSubmit={handleSubmit}>
       <legend className='text-2xl tracking-tight text-gray-900 mb-4'>Informations</legend>
       <div className='grid grid-cols-2 gap-3'>
         <div>

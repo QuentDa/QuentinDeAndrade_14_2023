@@ -1,3 +1,15 @@
 .home{
     text-align: center;
 }
+.EmployeeIcon{
+    position: absolute;
+    right: 3rem;
+    top: 13rem;
+    transform: rotate(-130deg);
+    z-index: -1;
+    width: 300px;
+    height: 300px;
+}
+.EmployeeIcon svg{
+    width: 100%;
+}
